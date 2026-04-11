@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  search-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ms-busqueda-search
+    ports:
+      - '3001:3001'
+    environment:
+      - PORT=3001
+    restart: unless-stopped

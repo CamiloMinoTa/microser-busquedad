@@ -1,0 +1,21 @@
+### Pruebas del Microservicio de Búsqueda
+
+# Búsqueda general (sin query)
+GET http://localhost:3000/search
+
+###
+
+# Búsqueda con query específico
+GET http://localhost:3000/search?q=NestJS
+
+###
+
+# Búsqueda con query que no coincide
+GET http://localhost:3000/search?q=xyz
+
+###
+
+# Endpoint raíz (Hello World)
+GET http://localhost:3000/
+
+###
