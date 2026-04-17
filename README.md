@@ -1,87 +1,65 @@
-# Microservicio de Búsqueda con Saga Pattern
+# Microservicio de Busqueda
 
-Este proyecto es un microservicio de búsqueda implementado en NestJS utilizando el patrón Saga para manejar búsquedas de manera eficiente.
+Servicio NestJS conectado a Mongo Atlas para listar productos, consultar detalle, buscar y autocompletar. Incluye un `frontend/` en React para hacer pruebas manuales desde navegador.
 
-## Descripción
+## Variables de entorno
 
-El microservicio proporciona un endpoint REST para realizar búsquedas en un índice simulado. Utiliza el patrón Saga para coordinar las operaciones de búsqueda.
+Crea un archivo `.env` en la raiz:
 
-## Arquitectura
+```env
+PORT=3001
+FRONTEND_ORIGIN=http://localhost:5173
+MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>/<database>?retryWrites=true&w=majority
+MONGODB_DB_NAME=busquedad
+MONGODB_COLLECTION=search_results
+```
 
-- **Saga Pattern**: Implementado en `src/saga/` para manejar la lógica de búsqueda.
-- **NestJS**: Framework utilizado para la estructura del microservicio.
-- **Docker**: Contenedorizado para fácil despliegue.
+Notas:
+- `FRONTEND_ORIGIN` habilita CORS para el cliente React.
+- `MONGODB_DB_NAME` puede omitirse si ya viene en el URI.
+- La coleccion debe tener al menos `title`, `description`, `category` y `tags`.
 
-## Instalación y Ejecución
+## Backend
 
-### Local
+```bash
+npm install
+npm run start:dev
+```
 
-1. Instalar dependencias:
-   ```bash
-   npm install
-   ```
+API disponible en `http://localhost:3001`.
 
-2. Ejecutar en modo desarrollo:
-   ```bash
-   npm run start:dev
-   ```
+Endpoints:
+- `GET /products`
+- `GET /products/:id`
+- `GET /search?q={query}`
+- `GET /search/autocomplete?q={query}&limit=6`
 
-3. El servicio estará disponible en `http://localhost:3000`
+## Frontend
 
-### Con Docker Compose
+Desde `frontend/`:
 
-1. Construir y ejecutar el contenedor:
-   ```bash
-   docker-compose up --build
-   ```
+```bash
+npm install
+npm run dev
+```
 
-2. El servicio estará disponible en `http://localhost:3000`
+Interfaz disponible en `http://localhost:5173`.
 
-3. Para detener:
-   ```bash
-   docker-compose down
-   ```
+Tambien puedes usar desde la raiz:
 
-## Endpoints
+```bash
+npm run frontend:dev
+```
 
-- `GET /`: Mensaje de bienvenida
-- `GET /search?q={query}`: Realizar búsqueda con query opcional
+## Docker Compose
+
+```bash
+docker compose up --build
+```
 
 ## Pruebas
 
-### Ejecutar pruebas unitarias
 ```bash
-npm run test
-```
-
-### Ejecutar pruebas e2e
-```bash
+npm test
 npm run test:e2e
 ```
-
-### Probar con REST Client
-
-Usa el archivo `test.http` incluido para probar los endpoints desde VS Code (requiere extensión REST Client).
-
-## Estructura del Proyecto
-
-```
-src/
-├── app.controller.ts
-├── app.module.ts
-├── app.service.ts
-├── main.ts
-└── saga/
-    ├── search.controller.ts
-    ├── search.module.ts
-    ├── search.saga.ts
-    ├── search.service.ts
-    └── search.model.ts
-```
-
-## Tecnologías
-
-- NestJS
-- TypeScript
-- Docker
-- Docker Compose

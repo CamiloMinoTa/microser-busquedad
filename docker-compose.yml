@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   search-service:
     build:
@@ -9,5 +7,8 @@ services:
     ports:
       - '3001:3001'
     environment:
-      - PORT=3001
+      PORT: 3001
+      MONGODB_URI: ${MONGODB_URI:-}
+      MONGODB_DB_NAME: ${MONGODB_DB_NAME:-}
+      MONGODB_COLLECTION: ${MONGODB_COLLECTION:-search_results}
     restart: unless-stopped
