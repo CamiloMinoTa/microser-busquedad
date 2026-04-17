@@ -1,13 +1,13 @@
-export interface SearchResult {
-  id: number;
-  title: string;
-  description: string;
-}
+export class SearchResult {
+  id: string;
+  query: string;
+  resultsCount: number;
+  timestamp: Date;
 
-export class SearchCommand {
-  constructor(public readonly query: string) {}
-}
-
-export class SearchCompletedEvent {
-  constructor(public readonly results: SearchResult[]) {}
+  constructor(query: string, count: number) {
+    this.id = Math.random().toString(36).substring(7);
+    this.query = query;
+    this.resultsCount = count;
+    this.timestamp = new Date();
+  }
 }
