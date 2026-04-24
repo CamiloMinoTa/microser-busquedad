@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { SearchSaga } from './search.saga';
-import { SearchResult } from './search.model';
+import { SearchResponse } from './search.model';
 
 @Injectable()
 export class SearchService {
-  constructor(private readonly saga: SearchSaga) {}
+  constructor(private readonly searchSaga: SearchSaga) {}
 
-  async search(query: string): Promise<SearchResult> {
-    return this.saga.executeSearch(query);
+  async search(query?: string): Promise<SearchResponse> {
+    return this.searchSaga.run(query);
   }
 }

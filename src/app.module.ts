@@ -1,28 +1,24 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-
-// Infrastructure
-import { MongoSearchRepository } from './infrastructure/repositories/mongo-search.repositoy'
-import { ProductDocument, ProductSchema } from './infrastructure/repositories/schemas/product.schema';
-
-// Controllers & Services básicos
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { SearchModule } from './saga/search.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' }),
-    MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/univalleshop'),
-    MongooseModule.forFeature([{ name: ProductDocument.name, schema: ProductSchema }]),
+    ConfigModule.forRoot({ isGlobal: true }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        uri: config.get<string>('MONGO_URI', 'mongodb://localhost:27017/microsearch'),
+        dbName: config.get<string>('MONGO_DB_NAME', 'microsearch'),
+      }),
+    }),
+    SearchModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: 'SearchRepositoryPort',
-      useClass: MongoSearchRepository,
-    },
-  ],
+  providers: [AppService],
 })
 export class AppModule {}

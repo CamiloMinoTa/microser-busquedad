@@ -1,10 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { SearchResult } from './search.model';
+import { SearchUseCase } from '../application/use-cases/search.use-case';
+import { SearchResponse } from './search.model';
 
 @Injectable()
 export class SearchSaga {
-  async executeSearch(query: string): Promise<SearchResult> {
-    console.log(`Saga: Processing search for "${query}"`);
-    return new SearchResult(query, 0);
+  constructor(private readonly searchUseCase: SearchUseCase) {}
+
+  async run(query?: string): Promise<SearchResponse> {
+    const results = await this.searchUseCase.execute({ q: query });
+    return {
+      query: query ?? '',
+      total: results.length,
+      results,
+    };
   }
 }

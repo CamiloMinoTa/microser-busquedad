@@ -1,0 +1,27 @@
+[
+  {
+    "title": "NestJS Saga",
+    "snippet": "Implementaciones del patrón Saga en NestJS para coordinar microservicios.",
+    "source": "documentacion"
+  },
+  {
+    "title": "Búsqueda avanzada",
+    "snippet": "Ejemplo de búsquedas con filtros y texto completo en MongoDB Atlas.",
+    "source": "tutorial"
+  },
+  {
+    "title": "Monitorización de datos",
+    "snippet": "Cómo ver y depurar el estado de las colecciones en MongoDB Atlas.",
+    "source": "blog"
+  },
+  {
+    "title": "Conexión MongoDB Atlas",
+    "snippet": "Guía para conectar NestJS con MongoDB Atlas usando Mongoose.",
+    "source": "codigo"
+  },
+  {
+    "title": "Resultados de búsqueda",
+    "snippet": "Ejemplo de retorno de datos en una API REST para búsquedas.",
+    "source": "demo"
+  }
+]

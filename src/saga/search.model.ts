@@ -1,13 +1,7 @@
-export class SearchResult {
-  id: string;
-  query: string;
-  resultsCount: number;
-  timestamp: Date;
+import { SearchResult } from '../domain/entities/search-result.entity';
 
-  constructor(query: string, count: number) {
-    this.id = Math.random().toString(36).substring(7);
-    this.query = query;
-    this.resultsCount = count;
-    this.timestamp = new Date();
-  }
+export interface SearchResponse {
+  query: string;
+  total: number;
+  results: SearchResult[];
 }

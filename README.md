@@ -21,12 +21,19 @@ El microservicio proporciona un endpoint REST para realizar búsquedas en un ín
    npm install
    ```
 
-2. Ejecutar en modo desarrollo:
+2. Crear un archivo `.env` basado en `.env.example` y configurar tu conexión MongoDB Atlas:
+   ```bash
+   cp .env.example .env
+   ```
+
+3. Ajustar `MONGO_URI` con la cadena de conexión de Atlas y `MONGO_DB_NAME` con el nombre de la base de datos.
+
+4. Ejecutar en modo desarrollo:
    ```bash
    npm run start:dev
    ```
 
-3. El servicio estará disponible en `http://localhost:3000`
+5. El servicio estará disponible en `http://localhost:3000`
 
 ### Con Docker Compose
 
@@ -85,3 +92,25 @@ src/
 - TypeScript
 - Docker
 - Docker Compose
+
+## Frontend React
+
+Se agregó un frontend sencillo en `frontend/` para verificar la conexión al backend y a MongoDB Atlas.
+
+### Ejecutar frontend
+
+1. Ir a la carpeta del frontend:
+   ```bash
+   cd frontend
+   ```
+2. Instalar dependencias:
+   ```bash
+   npm install
+   ```
+3. Ejecutar el frontend:
+   ```bash
+   npm run dev
+   ```
+4. Abrir el navegador en `http://localhost:5173`
+
+Asegúrate de que el backend esté corriendo en `http://localhost:3000` antes de usar el frontend.
