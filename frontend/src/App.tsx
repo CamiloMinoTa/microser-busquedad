@@ -24,7 +24,7 @@ function App() {
     setResults([]);
 
     try {
-      const url = new URL('http://localhost:3000/search');
+      const url = new URL('/api/search', window.location.origin);
       if (query.trim().length) {
         url.searchParams.set('q', query.trim());
       }
