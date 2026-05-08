@@ -1,11 +1,11 @@
-# Microservicio de busqueda
+# Microservicio de busqueda de UnivalleShop
 
-Servicio de busqueda construido con NestJS y MongoDB. Expone un endpoint REST para consultar documentos de la coleccion `search_results` y devuelve una respuesta con la consulta recibida, el total de coincidencias y la lista de resultados.
+Servicio de busqueda construido con NestJS y MongoDB para consultar productos del e-commerce UnivalleShop. Expone un endpoint REST que consulta la coleccion `product_search_results` y devuelve la consulta recibida, la categoria filtrada, el total de coincidencias y la lista de productos encontrados.
 
 El flujo principal hoy es:
 
 ```text
-GET /search -> SearchController -> SearchService -> SearchSaga -> SearchUseCase -> SearchRepositoryImpl -> MongoDB
+GET /search -> SearchController -> SearchService -> SearchSaga -> SearchUseCase -> ProductSearchRepositoryImpl -> MongoDB
 ```
 
 ## Stack
@@ -91,7 +91,7 @@ Valores relevantes:
 
 ## Cargar datos de ejemplo
 
-El repositorio incluye `mongo-seed.json` con documentos de ejemplo para la coleccion `search_results`.
+El repositorio incluye `mongo-seed.json` con productos de ejemplo para la coleccion `product_search_results`.
 
 Importa ese archivo en la base configurada en `.env` usando MongoDB Compass o la interfaz de MongoDB Atlas.
 
@@ -109,27 +109,42 @@ Hello World!
 
 ### `GET /search`
 
-Devuelve todos los documentos de `search_results` si no se envia el parametro `q`.
+Devuelve todos los productos de `product_search_results` si no se envia el parametro `q`.
 
-### `GET /search?q=nestjs`
+### `GET /search?q=camiseta`
 
 Realiza una busqueda case-insensitive sobre los campos:
 
-- `title`
-- `snippet`
-- `source`
+- `name`
+- `description`
+- `category`
+- `seller`
+
+### `GET /search?category=Accesorios`
+
+Filtra los productos por categoria sin texto de busqueda.
+
+### `GET /search?q=univalle&category=Ropa`
+
+Combina busqueda de texto con filtro exacto por categoria.
 
 Ejemplo de respuesta:
 
 ```json
 {
-  "query": "nestjs",
+  "query": "camiseta",
+  "category": "Ropa",
   "total": 1,
   "results": [
     {
-      "title": "NestJS Saga",
-      "snippet": "Implementaciones del patron Saga en NestJS para coordinar microservicios.",
-      "source": "documentacion"
+      "productId": "UVS-001",
+      "name": "Camiseta UnivalleShop",
+      "description": "Camiseta roja con estampado institucional para estudiantes de Univalle.",
+      "category": "Ropa",
+      "price": 45000,
+      "imageUrl": "https://placehold.co/600x400?text=Camiseta+Univalle",
+      "stock": 18,
+      "seller": "Tienda Central"
     }
   ]
 }
@@ -202,5 +217,5 @@ Frontend:
 - Puedes probar, por ejemplo:
 
 ```http
-GET http://localhost:3000/search?q=NestJS
+GET http://localhost:3000/search?q=camiseta
 ```

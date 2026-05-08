@@ -1,17 +1,23 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SearchController } from './search.controller';
-import { SearchService } from './search.service';
-import { SearchSaga } from './search.saga';
 import { SearchUseCase } from '../application/use-cases/search.use-case';
-import { SearchRepository } from '../domain/ports/search.repository';
-import { SearchRepositoryImpl } from '../infrastructure/repositories/search.repository';
-import { SearchResultDocument, SearchResultSchema } from '../infrastructure/schemas/search-result.schema';
+import { ProductSearchRepository } from '../domain/ports/search.repository';
+import { ProductSearchRepositoryImpl } from '../infrastructure/repositories/search.repository';
+import {
+  ProductSearchResultDocument,
+  ProductSearchResultSchema,
+} from '../infrastructure/schemas/search-result.schema';
+import { SearchController } from './search.controller';
+import { SearchSaga } from './search.saga';
+import { SearchService } from './search.service';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
-      { name: SearchResultDocument.name, schema: SearchResultSchema },
+      {
+        name: ProductSearchResultDocument.name,
+        schema: ProductSearchResultSchema,
+      },
     ]),
   ],
   controllers: [SearchController],
@@ -20,8 +26,8 @@ import { SearchResultDocument, SearchResultSchema } from '../infrastructure/sche
     SearchSaga,
     SearchUseCase,
     {
-      provide: SearchRepository,
-      useClass: SearchRepositoryImpl,
+      provide: ProductSearchRepository,
+      useClass: ProductSearchRepositoryImpl,
     },
   ],
   exports: [SearchService],

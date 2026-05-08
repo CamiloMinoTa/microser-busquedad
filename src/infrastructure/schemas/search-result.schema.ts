@@ -1,16 +1,43 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
-@Schema({ collection: 'search_results' })
-export class SearchResultDocument extends Document {
+export type ProductSearchResultDocumentType =
+  HydratedDocument<ProductSearchResultDocument>;
+
+@Schema({ collection: 'product_search_results' })
+export class ProductSearchResultDocument {
   @Prop({ required: true })
-  title: string;
+  productId!: string;
 
   @Prop({ required: true })
-  snippet: string;
+  name!: string;
 
   @Prop({ required: true })
-  source: string;
+  description!: string;
+
+  @Prop({ required: true })
+  category!: string;
+
+  @Prop({ required: true })
+  price!: number;
+
+  @Prop({ required: true })
+  imageUrl!: string;
+
+  @Prop({ required: true })
+  stock!: number;
+
+  @Prop({ required: true })
+  seller!: string;
 }
 
-export const SearchResultSchema = SchemaFactory.createForClass(SearchResultDocument);
+export const ProductSearchResultSchema = SchemaFactory.createForClass(
+  ProductSearchResultDocument,
+);
+
+ProductSearchResultSchema.index({
+  name: 'text',
+  description: 'text',
+  category: 'text',
+  seller: 'text',
+});

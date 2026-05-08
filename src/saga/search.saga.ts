@@ -6,10 +6,11 @@ import { SearchResponse } from './search.model';
 export class SearchSaga {
   constructor(private readonly searchUseCase: SearchUseCase) {}
 
-  async run(query?: string): Promise<SearchResponse> {
-    const results = await this.searchUseCase.execute({ q: query });
+  async run(query?: string, category?: string): Promise<SearchResponse> {
+    const results = await this.searchUseCase.execute({ q: query, category });
     return {
       query: query ?? '',
+      category: category ?? '',
       total: results.length,
       results,
     };
